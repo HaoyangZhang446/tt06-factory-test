@@ -9,7 +9,7 @@ module tt_um_haoyang_alarm(
 	output wire [7:0] uio_oe,	// IOs: Enable path (active high: 0=input, 1=output)
 	input  wire       ena,
 	input  wire       clk,
-	input  wire       reset
+	input  wire       rst_n
     );
     wire in;
     assign in = ui_in[0];
@@ -31,7 +31,7 @@ module tt_um_haoyang_alarm(
     reg [1:0] present_state, next_state;
 
     always @(posedge clk) begin
-        if (reset) begin  
+        if (rst_n) begin  
             present_state <=Idle;
         end 
         else begin
@@ -40,7 +40,7 @@ module tt_um_haoyang_alarm(
     end
     
     always @(posedge clk ) begin
-        if (reset || counter == 31) begin
+        if (rst_n || counter == 31) begin
             counter <= 5'd0;
         end
         if (present_state == AlarmSet)begin
