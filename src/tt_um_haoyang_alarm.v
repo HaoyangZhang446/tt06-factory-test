@@ -14,10 +14,10 @@ module tt_um_haoyang_alarm(
     wire in;
     assign in = ui_in[0];
     reg [7:0] out;//  
-    reg [4:0] counter;
+    reg [7:0] counter;
     assign uo_out  = out;
     assign uio_out[4:0] = counter;
-    assign uio_oe = 8'b0001_1111;
+    assign uio_oe = 8'hff;
     
     wire clean_in;
     clean_button btn(
@@ -41,17 +41,17 @@ module tt_um_haoyang_alarm(
     
     always @(posedge clk ) begin
         if (rst_n || counter == 31) begin
-            counter <= 5'd0;
+            counter <= 8'd0;
         end
         if (present_state == AlarmSet)begin
-            counter <= counter + 5'd1;
+            counter <= counter + 8'd1;
         end
     end
 
     always @(*)begin
             case (present_state)
                 Idle: next_state = ~clean_in ? AlarmSet : Idle;
-                AlarmSet: next_state = (counter == 5'd31) ? Alerting : AlarmSet ;
+                AlarmSet: next_state = (counter == 8'd31) ? Alerting : AlarmSet ;
                 Alerting: next_state = ~clean_in ? Idle : Alerting;
                 default:   next_state = 2'b0;
             endcase
