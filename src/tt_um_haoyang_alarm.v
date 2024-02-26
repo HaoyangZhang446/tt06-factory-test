@@ -16,7 +16,7 @@ module tt_um_haoyang_alarm(
     reg [7:0] out;//  
     reg [7:0] counter;
     assign uo_out  = out;
-    assign uio_out[4:0] = counter;
+    assign uio_out[7:0] = counter;
     assign uio_oe = 8'hff;
     
     wire clean_in;
