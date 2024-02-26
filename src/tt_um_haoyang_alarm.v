@@ -17,7 +17,7 @@ module tt_um_haoyang_alarm(
     reg [4:0] counter;
     assign uo_out  = out;
     assign uio_out[4:0] = counter;
-    assign uio_oe = 8'hff;
+    assign uio_oe = 8'b0001_1111;
     
     wire clean_in;
     clean_button btn(
