@@ -1,17 +1,23 @@
 `default_nettype none
 
-module alarm(
-    clk, 
-    reset, 
-    in, 
-    out,
-    counter
+module tt_um_haoyang_alarm(
+
+    input  wire [7:0] ui_in,	// Dedicated inputs
+	output wire [7:0] uo_out,	// Dedicated outputs
+	input  wire [7:0] uio_in,	// IOs: Input path
+	output wire [7:0] uio_out,	// IOs: Output path
+	output wire [7:0] uio_oe,	// IOs: Enable path (active high: 0=input, 1=output)
+	input  wire       ena,
+	input  wire       clk,
+	input  wire       reset
     );
-    input clk;
-    input reset;    // Synchronous reset
-    input in;
-    output reg [7:0] out;//  
-    output reg [4:0] counter;
+    wire in;
+    assign in = ui_in[0];
+    reg [7:0] out;//  
+    reg [4:0] counter;
+    assign uo_out  = out;
+    assign uio_out[4:0] = counter;
+    assign uio_oe = 8'hff;
     
     wire clean_in;
     clean_button btn(
